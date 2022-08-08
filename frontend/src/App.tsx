@@ -8,9 +8,13 @@ import SudokuBoard from './components/SudokuBoard';
 
 const App: React.FC = () => {
   const blankBoard: string[] = [...'.'.repeat(81)];
+
   const [board, setBoard] = useState<string[]>(blankBoard);
   const [prevBoard, setPrevBoard] = useState<string[]>(blankBoard);
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
+
+  // TODO: upload photo of Sudoku puzzle and fill them in
+  // TODO: handle Sudoku puzzles of arbitrary size
 
   const getRandomPuzzle = async () => {
     try {
