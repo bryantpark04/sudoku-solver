@@ -1,6 +1,11 @@
-const SubmitButton = () => {
+type SubmitButtonProps = {
+    onClick: (board: string[]) => void;
+    board: string[];
+};
+
+const SubmitButton: React.FunctionComponent<SubmitButtonProps> = ({ onClick, board }) => {
     return (
-        <button>Solve Sudoku</button>
+        <button onClick={() => onClick(board)}>Solve Sudoku</button>
     )
 };
 
