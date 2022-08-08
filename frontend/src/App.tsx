@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import './App.css';
@@ -7,10 +7,24 @@ import { SubmitButton, ResetButton, UndoSolveButton } from './components/Buttons
 import SudokuBoard from './components/SudokuBoard';
 
 const App: React.FC = () => {
-  const testBoard: string = '6.....8.3.4.7.................5.4.7.3..2.....1.6.......2.....5.....8.6......1....';
-  const [board, setBoard] = useState<string[]>([...testBoard]);
-  const [prevBoard, setPrevBoard] = useState<string[]>([...testBoard]);
+  const blankBoard: string[] = [...'.'.repeat(81)];
+  const [board, setBoard] = useState<string[]>(blankBoard);
+  const [prevBoard, setPrevBoard] = useState<string[]>(blankBoard);
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
+
+  const getRandomPuzzle = async () => {
+    try {
+      const res = await axios.get('/random');
+      const newBoard = res.data;
+      setBoard(newBoard);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getRandomPuzzle();
+  }, []);
 
   const submitPuzzle = async () => {
     try {
@@ -23,6 +37,7 @@ const App: React.FC = () => {
       }
       const res = await axios.post('/solve', payload);
       const newBoard = res.data;
+
       if (newBoard.length > 0) {
         setPrevBoard(board);
         setBoard(newBoard);
@@ -47,7 +62,7 @@ const App: React.FC = () => {
   };
 
   const resetBoard = () => {
-    setBoard([...".".repeat(81)])
+    setBoard(blankBoard)
   };
 
   const undoSolve = () => {
@@ -60,9 +75,11 @@ const App: React.FC = () => {
 
       <SudokuBoard board={board} handleChange={handleChange} />
 
+      {/* TODO: ControlCenter component */}
       <SubmitButton onClick={submitPuzzle} />
       <ResetButton onClick={resetBoard} />
       <UndoSolveButton onClick={undoSolve} />
+      <button onClick={getRandomPuzzle}>Random Puzzle</button>
 
       {isInvalid && <p style={{color: "red"}}>Invalid puzzle!</p>}
     </div>
