@@ -11,6 +11,16 @@ def solve_sudoku(pzl: list[str]) -> Optional[list[str]]:
     return solved
 
 
+def illegalChars(i, pzl):
+    return {pzl[j] for j in NEIGHBORS[i]}
+
+
+def isInvalid(pzl):
+    for i in range(len(pzl)):
+        if pzl[i] in illegalChars(i, pzl): return True
+    return False
+
+
 def setGlobals(pzlLength):
     global N, SUB_BOX_HEIGHT, SUB_BOX_WIDTH, SYMBOL_SET, CONSTRAINT_SETS, NEIGHBORS, INDEX_TO_SETS
     N = int(sqrt(pzlLength))
@@ -51,7 +61,10 @@ def repr2D(pzl: list[str]):
 
 
 def bruteForce(pzl: list[str], b2i) -> Optional[list[str]]:
-    if '.' not in pzl: return pzl
+    if '.' not in pzl: 
+        if isInvalid(pzl):
+            return None
+        return pzl
 
     blankIndices = set()
     flag = False
