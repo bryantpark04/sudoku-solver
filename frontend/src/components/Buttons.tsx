@@ -1,21 +1,23 @@
-type SubmitButtonProps = {
+type ButtonProps = {
     onClick: () => void;
 };
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ onClick }) => {
+const SubmitButton: React.FC<ButtonProps> = ({ onClick }) => {
     return (
         <button onClick={() => onClick()}>Solve Sudoku</button>
     );
 };
 
-type ResetButtonProps = {
-    onClick: () => void;
-};
-
-const ResetButton: React.FC<ResetButtonProps> = ({ onClick }) => {
+const ResetButton: React.FC<ButtonProps> = ({ onClick }) => {
     return (
         <button onClick={onClick}>Reset Board</button>
     );
-}
+};
 
-export { SubmitButton, ResetButton };
+const UndoSolveButton: React.FC<ButtonProps> = ({ onClick }) => {
+    return (
+        <button onClick={onClick}>Undo Solve</button>
+    );
+};
+
+export { SubmitButton, ResetButton, UndoSolveButton };
