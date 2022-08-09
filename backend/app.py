@@ -1,14 +1,14 @@
+import os
 import random
-import time
 from flask import Flask, request
 
 from sudoku import solve_sudoku
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/build/', static_url_path='/')
 
-@app.route("/time")
-def get_current_time():
-    return {'time': time.time()}
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 @app.route('/solve', methods=['POST'])
 def solve_sudoku_puzzle():
@@ -34,3 +34,6 @@ def get_random_sudoku():
         board[i] = "."
 
     return board
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
