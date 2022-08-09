@@ -3,16 +3,18 @@ import random
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 
-from sudoku import solve_sudoku
-from models import initialize_sudoku_solve
+from .sudoku import solve_sudoku
+from .models import initialize_sudoku_solve
+
 
 app = Flask(__name__, static_folder='../frontend/build/', static_url_path='/')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
 
-SudokuSolve = initialize_sudoku_solve(db)
+SudokuSolve = initialize_sudoku_solve(db) # workaround for circular import issue
 
 @app.route('/')
 def index():
