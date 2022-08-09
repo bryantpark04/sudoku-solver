@@ -15,6 +15,7 @@ const App: React.FC = () => {
 
   // TODO: upload photo of Sudoku puzzle and fill them in
   // TODO: handle Sudoku puzzles of arbitrary size
+  // TODO: deploy to Heroku
 
   const getRandomPuzzle = async () => {
     try {

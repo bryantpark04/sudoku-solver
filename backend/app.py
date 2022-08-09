@@ -1,3 +1,4 @@
+import random
 import time
 from flask import Flask, request
 
@@ -18,5 +19,18 @@ def solve_sudoku_puzzle():
 
 @app.route('/random')
 def get_random_sudoku():
-    # TODO: Implement this
-    return [*'6.....8.3.4.7.................5.4.7.3..2.....1.6.......2.....5.....8.6......1....']
+    BASE = 3
+    SIDE = BASE ** 2
+    PROP_EMPTY = 0.75
+    NUM_EMPTY = int(SIDE ** 2 * PROP_EMPTY)
+    BASE_RANGE = range(BASE)
+
+    rows = [g * BASE + r for g in random.sample(BASE_RANGE, BASE) for r in random.sample(BASE_RANGE, BASE)]
+    cols = [g * BASE + c for g in random.sample(BASE_RANGE, BASE) for c in random.sample(BASE_RANGE, BASE)]
+    nums = random.sample("123456789", SIDE)
+
+    board = [nums[(BASE * (r % BASE) + r // BASE + c) % SIDE] for c in cols for r in rows] # complete Sudoku
+    for i in random.sample(range(len(board)), NUM_EMPTY): # remove some numbers from complete puzzle
+        board[i] = "."
+
+    return board
