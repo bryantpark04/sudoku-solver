@@ -13,8 +13,8 @@ const App: React.FC = () => {
   const [prevBoard, setPrevBoard] = useState<string[]>(blankBoard);
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
 
-  // TODO: upload photo of Sudoku puzzle and fill them in
-  // TODO: handle Sudoku puzzles of arbitrary size
+  // TODO: upload photo of Sudoku puzzle and fill them in?
+  // TODO: handle Sudoku puzzles of order 2 and 4 (in addition to 3)
   // TODO: deploy to Heroku
 
   const getRandomPuzzle = async () => {
