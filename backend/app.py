@@ -1,10 +1,18 @@
 import os
 import random
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 
 from sudoku import solve_sudoku
+from models import initialize_sudoku_solve
 
 app = Flask(__name__, static_folder='../frontend/build/', static_url_path='/')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db = SQLAlchemy()
+db.init_app(app)
+
+SudokuSolve = initialize_sudoku_solve(db)
 
 @app.route('/')
 def index():
@@ -12,9 +20,19 @@ def index():
 
 @app.route('/solve', methods=['POST'])
 def solve_sudoku_puzzle():
-    # TODO: Cache sudoku puzzles in SQLAlchemy database
     board: list[str] = request.get_json()['body']
-    solution: list[str] = solve_sudoku(board)
+    solution: list[str]
+
+    puzzle_key = ''.join(board)
+    query = SudokuSolve.query.get(puzzle_key)
+    if query:
+        solution = [*query.solution]
+    else:
+        solution = solve_sudoku(board)
+        solution_key = ''.join(solution)
+        new_solve = SudokuSolve(puzzle=puzzle_key, solution=solution_key)
+        db.session.add(new_solve)
+        db.session.commit()
     return solution if solution else []
 
 @app.route('/random')
