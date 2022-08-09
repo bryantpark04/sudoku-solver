@@ -1,1 +1,1 @@
-web: gunicorn --chdir backend app:app && cd frontend && npm run build
+web: gunicorn --chdir backend app:app

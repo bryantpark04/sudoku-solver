@@ -1,0 +1,22 @@
+{
+  "name": "sudoku-solver",
+  "version": "1.0.0",
+  "cacheDirectories": [
+    "frontend/node_modules"
+  ],
+  "description": "A simple tool to solve Sudoku puzzles",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryantpark04/sudoku-solver.git"
+  },
+  "author": "Bryant Park",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryantpark04/sudoku-solver/issues"
+  },
+  "homepage": "https://github.com/bryantpark04/sudoku-solver#readme"
+}
