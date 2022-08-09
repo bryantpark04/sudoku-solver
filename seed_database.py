@@ -1,3 +1,3 @@
-from backend.app import app, db
+import backend.app as app
 
-db.create_all(app=app)
+app.db.create_all(app=app.app)
