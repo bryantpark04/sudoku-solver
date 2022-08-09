@@ -9,7 +9,8 @@ from backend.models import initialize_sudoku_solve
 
 app = Flask(__name__, static_folder='../frontend/build/', static_url_path='/')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://') or 'postgresql:///database.db'
+DB_URI = os.environ.get('DATABASE_URL') or 'postgresql:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI.replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
