@@ -3,8 +3,8 @@ import random
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 
-from .sudoku import solve_sudoku
-from .models import initialize_sudoku_solve
+from backend.sudoku import solve_sudoku
+from backend.models import initialize_sudoku_solve
 
 
 app = Flask(__name__, static_folder='../frontend/build/', static_url_path='/')
