@@ -3,19 +3,13 @@ import axios from 'axios';
 
 import './App.css';
 import Header from './components/Header';
-import { SubmitButton, ResetButton, UndoSolveButton } from './components/Buttons';
 import SudokuBoard from './components/SudokuBoard';
 
 const App: React.FC = () => {
   const blankBoard: string[] = [...'.'.repeat(81)];
 
   const [board, setBoard] = useState<string[]>(blankBoard);
-  const [prevBoard, setPrevBoard] = useState<string[]>(blankBoard);
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
-
-  // TODO: upload photo of Sudoku puzzle and fill them in?
-  // TODO: handle Sudoku puzzles of order 2 and 4 (in addition to 3)
-  // TODO: deploy to Heroku
 
   const getRandomPuzzle = async () => {
     try {
@@ -44,7 +38,6 @@ const App: React.FC = () => {
       const newBoard = res.data;
 
       if (newBoard.length > 0) {
-        setPrevBoard(board);
         setBoard(newBoard);
         setIsInvalid(false);
       } else {
@@ -70,21 +63,15 @@ const App: React.FC = () => {
     setBoard(blankBoard)
   };
 
-  const undoSolve = () => {
-    setBoard(prevBoard);
-  };
-
   return (
     <div className="App">
       <Header />
 
       <SudokuBoard board={board} handleChange={handleChange} />
 
-      {/* TODO: ControlCenter component */}
-      <SubmitButton onClick={submitPuzzle} />
-      <ResetButton onClick={resetBoard} />
-      <UndoSolveButton onClick={undoSolve} />
-      <button onClick={getRandomPuzzle}>Random Puzzle</button>
+      <button onClick={submitPuzzle}>Solve</button>
+      <button onClick={resetBoard}>Reset</button>
+      <button onClick={getRandomPuzzle}>Random</button>
 
       {isInvalid && <p style={{color: "red"}}>Invalid puzzle!</p>}
     </div>
