@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
 import './App.css';
+
+import { useEffect, useState } from 'react';
+
 import Header from './components/Header';
 import SudokuBoard from './components/SudokuBoard';
+import axios from 'axios';
 
 const App: React.FC = () => {
   const blankBoard: string[] = [...'.'.repeat(81)];
@@ -31,7 +32,7 @@ const App: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }, 
+        },
         body: board
       }
       const res = await axios.post('/solve', payload);
@@ -67,11 +68,12 @@ const App: React.FC = () => {
     <div className="App">
       <Header />
 
-      <SudokuBoard board={board} handleChange={handleChange} />
-
-      <button onClick={submitPuzzle}>Solve</button>
-      <button onClick={resetBoard}>Reset</button>
-      <button onClick={getRandomPuzzle}>Random</button>
+      <SudokuBoard board={board} handleChange={handleChange}/>
+      <div className="buttonContainer flex gap-3 justify-center">
+        <button onClick={submitPuzzle} className="bg-[#00063D]  text-[#fff] rounded-md px-5 py-1 hover:underline font-sans font-bold text-2xl">SOLVE</button>
+        <button onClick={resetBoard} className="bg-[#00063D] text-[#fff] rounded-md px-5 py-1 hover:underline font-sans font-bold text-2xl">RESET</button>
+        <button onClick={getRandomPuzzle} className="bg-[#00063D] text-[#fff] rounded-md px-5 py-1 hover:underline font-sans font-bold text-2xl">RANDOM</button>
+      </div>
 
       {isInvalid && <p style={{color: "red"}}>Invalid puzzle!</p>}
     </div>
